@@ -1,1 +1,68 @@
+import random
 
+# Dictionary mapping choices to emojis
+EMOJIS = {
+    'r': '🪨',  # Rock
+    's': '✂️',  # Scissors
+    'p': '🧻'   # Paper
+}
+
+# Tuple containing the valid choices
+CHOICES = ('r', 'p', 's')
+
+def get_computer_choice():
+    """Returns a random choice from the computer."""
+    return random.choice(CHOICES)
+
+def print_result(player_choice, computer_choice):
+    """Displays the game result based on the player's and computer's choices."""
+    print(f"\nYou chose: {EMOJIS[player_choice]}")
+    print(f"Computer chose: {EMOJIS[computer_choice]}")
+    
+    if player_choice == computer_choice:
+        print("It's a tie!")
+        return "tie"
+    elif (player_choice == 'r' and computer_choice == 's') or \
+         (player_choice == 's' and computer_choice == 'p') or \
+         (player_choice == 'p' and computer_choice == 'r'):
+        print("Congratulations! You win!")
+        return "win"
+    else:
+        print("You lose!")
+        return "lose"
+
+def main():
+    """Main game loop."""
+    player_score = 0
+    computer_score = 0
+    ties = 0
+
+    while True:
+        player_choice = input("Rock, Paper, Scissors? (r/p/s): ").lower()
+        
+        if player_choice not in CHOICES:
+            print("Invalid choice. Please enter 'r', 'p', or 's'.")
+            continue
+        
+        computer_choice = get_computer_choice()
+        result = print_result(player_choice, computer_choice)
+        
+        if result == "win":
+            player_score += 1
+        elif result == "lose":
+            computer_score += 1
+        else:
+            ties += 1
+        
+        print(f"\nScore: You - {player_score} | Computer - {computer_score} | Ties - {ties}")
+        
+        # Ask if the player wants to continue
+        continue_game = input("\nDo you want to continue playing? (y/n): ").lower()
+        if continue_game != 'y':
+            break
+
+    print("\nThanks for playing! Final scores:")
+    print(f"You: {player_score} | Computer: {computer_score} | Ties: {ties}")
+
+if __name__ == "__main__":
+    main()
